@@ -1,6 +1,7 @@
 <script setup>
   import { ref } from 'vue';
   import { uid } from 'uid';
+  import { Icon } from '@iconify/vue';
   import ToDoCreator from '../components/ToDoCreator.vue';
   import ToDoItem from '../components/ToDoItem.vue';
 
@@ -15,15 +16,27 @@
     })
   }
 
+  const toggleTodoComplete = (todoPos) => {
+    todoList.value[todoPos].isCompleted = !todoList.value[todoPos].isCompleted
+  }
+
 </script>
 
 <template>
   <main>
     <h1>Create Todo</h1>
     <ToDoCreator @create-todo="createTodo"/>
-    <ul class="todo-list">
-      <ToDoItem v-for="todo in todoList" :todo="todo"/>
+    <ul v-if="todoList.length > 0" class="todo-list">
+      <ToDoItem v-for="(todo, index) in todoList" 
+        :todo="todo" 
+        :index="index" 
+        @toggle-complete="toggleTodoComplete"
+      />
     </ul>
+    <p v-else class="todos-msg">
+      <Icon icon="noto-v1:sad-but-relieved-face" width="22" />
+      <span>You have no todo's to complete! Add one!</span>
+    </p>
   </main>
 </template>
 
