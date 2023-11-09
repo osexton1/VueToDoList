@@ -14,11 +14,23 @@
       isCompleted: null,
       isEditing: null,
     })
-  }
+  };
 
   const toggleTodoComplete = (todoPos) => {
-    todoList.value[todoPos].isCompleted = !todoList.value[todoPos].isCompleted
-  }
+    todoList.value[todoPos].isCompleted = !todoList.value[todoPos].isCompleted;
+  };
+
+  const toggleEditTodo = (todoPos) => {
+    todoList.value[todoPos].isEditing = !todoList.value[todoPos].isEditing;
+  };
+
+  const updateTodo = (todoVal, todoPos) => {
+    todoList.value[todoPos].todo = todoVal;
+  };
+
+  const deleteTodo = (todoId) => {
+    todoList.value = todoList.value.filter((todo) => todo.id !== todoId);
+  };
 
 </script>
 
@@ -31,6 +43,9 @@
         :todo="todo" 
         :index="index" 
         @toggle-complete="toggleTodoComplete"
+        @edit-todo="toggleEditTodo"
+        @update-todo="updateTodo"
+        @delete-todo="deleteTodo"
       />
     </ul>
     <p v-else class="todos-msg">
