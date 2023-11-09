@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, watch } from 'vue';
+  import { ref, watch, computed } from 'vue';
   import { uid } from 'uid';
   import { Icon } from '@iconify/vue';
   import ToDoCreator from '../components/ToDoCreator.vue';
@@ -12,6 +12,11 @@
   }, {
     // The deep property ensures that `watch` watches the objects in the array for changes, and not just the array itself
     deep: true,
+  });
+
+  const todoCompleted = computed(() => {
+    // `Every` checks every object in an array for a specific property. Returns true if every object matches that StylePropertyMap. Otherwise, false
+    return todoList.value.every((todo) => todo.isCompleted);
   });
 
   const fetchTodoList = () => {
@@ -71,6 +76,10 @@
     <p v-else class="todos-msg">
       <Icon icon="noto-v1:sad-but-relieved-face" width="22" />
       <span>You have no todo's to complete! Add one!</span>
+    </p>
+    <p v-if="todoCompleted && todoList.length > 0" class="todos-msg">
+      <Icon icon="noto-v1:party-popper" />
+      <span>You have completed all your todos!</span>
     </p>
   </main>
 </template>
