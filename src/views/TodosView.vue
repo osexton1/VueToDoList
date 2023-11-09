@@ -1,5 +1,5 @@
 <script setup>
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   import { uid } from 'uid';
   import { Icon } from '@iconify/vue';
   import ToDoCreator from '../components/ToDoCreator.vue';
@@ -7,13 +7,33 @@
 
   const todoList = ref([]);
 
+  watch(todoList, () => {
+    setTodoListLocalStorage();
+  }, {
+    // The deep property ensures that `watch` watches the objects in the array for changes, and not just the array itself
+    deep: true,
+  });
+
+  const fetchTodoList = () => {
+    const savedTodoList = JSON.parse(localStorage.getItem('todoList'));
+    if (savedTodoList) {
+      todoList.value = savedTodoList;
+    }
+  };
+
+  fetchTodoList();
+
+  const setTodoListLocalStorage = () => {
+    localStorage.setItem('todoList', JSON.stringify(todoList.value));
+  };
+
   const createTodo = (todo) => {
     todoList.value.push({
       id: uid(),
       todo: todo,
       isCompleted: null,
       isEditing: null,
-    })
+    });
   };
 
   const toggleTodoComplete = (todoPos) => {
