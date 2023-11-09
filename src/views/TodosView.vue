@@ -2,6 +2,7 @@
   import { ref } from 'vue';
   import { uid } from 'uid';
   import ToDoCreator from '../components/ToDoCreator.vue';
+  import ToDoItem from '../components/ToDoItem.vue';
 
   const todoList = ref([]);
 
@@ -20,6 +21,9 @@
   <main>
     <h1>Create Todo</h1>
     <ToDoCreator @create-todo="createTodo"/>
+    <ul class="todo-list">
+      <ToDoItem v-for="todo in todoList" :todo="todo"/>
+    </ul>
   </main>
 </template>
 
@@ -35,6 +39,22 @@
     h1 {
       margin-bottom: 16px;
       text-align: center;
+    }
+
+    .todo-list {
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+      margin-top: 24px;
+      gap: 20px;
+    }
+
+    .todos-msg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
     }
   }
 </style>

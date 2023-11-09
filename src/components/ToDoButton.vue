@@ -3,7 +3,9 @@
 </script>
 
 <template>
-    <slot>Create</slot>
+    <button>
+        <slot>Create</slot>
+    </button>
 </template>
 
 <style lang="scss" scoped>
